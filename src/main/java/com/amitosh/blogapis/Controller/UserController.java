@@ -1,5 +1,6 @@
 package com.amitosh.blogapis.Controller;
 
+import com.amitosh.blogapis.Dtos.UserDto;
 import com.amitosh.blogapis.Enitities.User;
 import com.amitosh.blogapis.Services.UserServiceImpl;
 import org.apache.coyote.Response;
@@ -21,22 +22,22 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUsers(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    public ResponseEntity<UserDto> createUsers(@RequestBody UserDto userDto) {
+        return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.FOUND);
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        return new ResponseEntity<List<UserDto>>(userService.getAllUsers(), HttpStatus.FOUND);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
-        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.FOUND);
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
+        return new ResponseEntity<UserDto>(userService.getUserById(id), HttpStatus.FOUND);
     }
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUserById(id, user), HttpStatus.OK);
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user, @PathVariable Long id) {
+        return new ResponseEntity<>(userService.updateUserById(user, id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")

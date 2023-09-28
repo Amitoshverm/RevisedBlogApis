@@ -1,6 +1,7 @@
 package com.amitosh.blogapis.Services;
 
 
+import com.amitosh.blogapis.Dtos.UserDto;
 import com.amitosh.blogapis.Enitities.User;
 import com.amitosh.blogapis.Repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -17,43 +18,66 @@ public class UserServiceImpl implements UserServices {
     }
 
     @Override
-    public User createUser(User user) {
-        User user1 = new User();
-        user1.setName(user.getName());
-        user1.setEmail(user.getEmail());
-        user1.setPassword(user.getPassword());
-        user1.setDescription(user.getDescription());
-        return userRepository.save(user1);
+    public UserDto createUser(UserDto userDto) {
+        User user = DtoToUser(userDto);
+        User savedUser = userRepository.save(user);
+        return UserToDto(savedUser);
+
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> userList = this.userRepository.findAll();
+        List<UserDto> userDtos = new ArrayList<>();
+        for (User user : userList) {
+            userDtos.add(UserToDto(user));
+        }
+
+        return userDtos;
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id).get();
+        return UserToDto(user);
     }
 
     @Override
-    public User updateUserById(Long id, User user) {
+    public UserDto updateUserById(UserDto userDto, Long id) {
+        User user = userRepository.findById(id).get();
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setDescription(userDto.getDescription());
 
-        User editedUser = new User();
-
-        editedUser.setName(user.getName());
-        editedUser.setEmail(user.getEmail());
-        editedUser.setPassword(user.getPassword());
-        editedUser.setDescription(user.getDescription());
-
-        User savedUser = userRepository.save(editedUser);
-
-        return savedUser;
+        User saveduser = userRepository.save(user);
+        return UserToDto(saveduser);
     }
 
     @Override
     public String deleteUserById(Long id) {
         userRepository.deleteById(id);
         return "User with id "+ id +" is deleted !";
+    }
+
+    public User DtoToUser(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setDescription(userDto.getDescription());
+
+        return user;
+    }
+    public UserDto UserToDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPassword());
+        userDto.setDescription(user.getDescription());
+
+        return userDto;
     }
 }
