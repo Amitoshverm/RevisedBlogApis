@@ -4,6 +4,7 @@ import com.amitosh.blogapis.Dtos.ApiResponse;
 import com.amitosh.blogapis.Dtos.UserDto;
 import com.amitosh.blogapis.Enitities.User;
 import com.amitosh.blogapis.Services.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUsers(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUsers(@Valid @RequestBody UserDto userDto) {
         return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.CREATED);
     }
 
@@ -38,7 +39,7 @@ public class UserController {
         return new ResponseEntity<UserDto>(userService.getUserById(id), HttpStatus.FOUND);
     }
     @PutMapping("{id}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user, @PathVariable Long id) {
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto user, @PathVariable Long id) {
         return new ResponseEntity<>(userService.updateUserById(user, id), HttpStatus.OK);
     }
 
