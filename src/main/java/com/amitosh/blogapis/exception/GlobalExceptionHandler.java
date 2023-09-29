@@ -3,10 +3,14 @@ package com.amitosh.blogapis.exception;
 import com.amitosh.blogapis.Dtos.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 // ControllerAdvice is annotation which generally handles exception across the whole application in one global component
@@ -18,6 +22,16 @@ public class GlobalExceptionHandler {
         String message = ex.getMessage();
         ApiResponse apiResponse = new ApiResponse(message, false, new Date());
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
+    }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleMethodArgsNotValidException(MethodArgumentNotValidException ex){
+        Map<String, String> resp = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) ->{
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            resp.put(fieldName, message);
+        });
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 }
