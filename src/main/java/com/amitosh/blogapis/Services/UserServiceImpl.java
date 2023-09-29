@@ -1,12 +1,15 @@
 package com.amitosh.blogapis.Services;
 
 
+import com.amitosh.blogapis.Dtos.ApiResponse;
 import com.amitosh.blogapis.Dtos.UserDto;
 import com.amitosh.blogapis.Enitities.User;
 import com.amitosh.blogapis.Repositories.UserRepository;
+import com.amitosh.blogapis.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -38,13 +41,17 @@ public class UserServiceImpl implements UserServices {
 
     @Override
     public UserDto getUserById(Long id) {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+
         return UserToDto(user);
     }
 
     @Override
     public UserDto updateUserById(UserDto userDto, Long id) {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());

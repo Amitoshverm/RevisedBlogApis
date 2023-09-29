@@ -1,5 +1,6 @@
 package com.amitosh.blogapis.Controller;
 
+import com.amitosh.blogapis.Dtos.ApiResponse;
 import com.amitosh.blogapis.Dtos.UserDto;
 import com.amitosh.blogapis.Enitities.User;
 import com.amitosh.blogapis.Services.UserServiceImpl;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -41,7 +43,8 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.deleteUserById(id), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> deleteUserById(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return new ResponseEntity<>(new ApiResponse("user deleted successfully", true, new Date()), HttpStatus.OK);
     }
 }

@@ -1,7 +1,6 @@
 package com.amitosh.blogapis.Services;
 
 import com.amitosh.blogapis.Dtos.UserDto;
-import com.amitosh.blogapis.Enitities.User;
 
 import java.util.List;
 
