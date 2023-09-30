@@ -3,6 +3,7 @@ package com.amitosh.blogapis.Controller;
 import com.amitosh.blogapis.Dtos.ApiResponse;
 import com.amitosh.blogapis.Dtos.CategoryDto;
 import com.amitosh.blogapis.Services.CategoryServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
         return new ResponseEntity<>(categoryService.createCategory(categoryDto),
                 HttpStatus.CREATED);
     }
@@ -37,7 +38,7 @@ public class CategoryController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Long id) {
+    public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Long id) {
         return new ResponseEntity<>(categoryService.updateCategoryById(categoryDto, id),
                 HttpStatus.CREATED);
     }
