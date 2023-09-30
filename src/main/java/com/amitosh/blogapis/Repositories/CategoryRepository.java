@@ -1,2 +1,9 @@
-package com.amitosh.blogapis.Repositories;public interface CategoryRepository {
+package com.amitosh.blogapis.Repositories;
+
+import com.amitosh.blogapis.Enitities.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }
