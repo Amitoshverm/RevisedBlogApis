@@ -36,8 +36,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ApiResponse>handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
-        return null;
-    }
+//    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+//    public ResponseEntity<ApiResponse>handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+//        return null;
+//    }
 }
